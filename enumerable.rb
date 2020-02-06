@@ -1,6 +1,9 @@
+# def my_each return to_enum(:my_each) unless block_given? new_arr = self.class == Array ? self : to_a for i in 0..size - 1 yield(new_arr[i]) end new_arr end 
+
+
 module Enumerable
   def my_each
-    return 'Yello' unless block_given?
+    return to_enum(:my_each) unless block_given?
 
     i = 0
 
@@ -119,7 +122,9 @@ module Enumerable
     new_arr
   end
 
-  def my_inject; end
+  def my_inject(in, sim)
+
+  end
 end
 
 my_array = [1, 3, 5, 9, 4, 3]
