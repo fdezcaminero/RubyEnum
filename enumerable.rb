@@ -1,6 +1,3 @@
-# def my_each return to_enum(:my_each) unless block_given? new_arr = self.class == Array ? self : to_a for i in 0..size - 1 yield(new_arr[i]) end new_arr end 
-
-
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -16,6 +13,8 @@ module Enumerable
   end
 
   def my_each_wtih_index(num = nil)
+    return to_enum(:my_each_with_index) unless block_given?
+
     num = 0 if num.nil?
 
     i = 0
@@ -29,6 +28,8 @@ module Enumerable
   end
 
   def my_select
+    return to_enum(:my_select) unless block_given?
+
     i = 0
 
     new_arr = []
@@ -122,12 +123,14 @@ module Enumerable
     new_arr
   end
 
-  def my_inject(in, sim)
+  # def my_inject(in = nil, sim = nil)
 
-  end
+  # end
 end
 
-my_array = [1, 3, 5, 9, 4, 3]
+# my_array = [1, 3, 5, 9, 4, 3]
+
+my_array = ["x", "y", "z"]
 
 # my_array.my_each { |x| puts x }
 
@@ -135,7 +138,7 @@ my_array = [1, 3, 5, 9, 4, 3]
 
 # my_array.my_select { |x| x.odd? }
 
-# puts my_array.my_all? { |x| x.is_a?(Integer)}
+# puts my_array.my_all?(String)
 
 # puts my_array.my_any? { |x| x == 11 }
 
