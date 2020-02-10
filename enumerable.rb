@@ -14,7 +14,7 @@ module Enumerable
     newarr
   end
 
-  def my_each_wtih_index(num = nil)
+  def my_each_with_index(num = nil)
     return to_enum(:my_each_with_index) unless block_given?
 
     num = 0 if num.nil?
@@ -132,9 +132,9 @@ end
 
 # my_array = [1, 3, 5, 9, 4, 3]
 
-my_array = %w[x y z]
+# my_array = %w[x y z]
 
-my_array.my_each { |x| puts x }
+# my_array.my_each { |x| puts x }
 
 # my_array.my_each_wtih_index(3) { |x, y| puts "#{y}: #{x}" }
 
