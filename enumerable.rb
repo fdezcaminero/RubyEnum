@@ -2,6 +2,8 @@ module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
 
+    newarr = self.class == Array ? self : to_a
+
     i = 0
 
     while i < size
@@ -9,7 +11,7 @@ module Enumerable
       i += 1
     end
 
-    self
+    newarr
   end
 
   def my_each_wtih_index(num = nil)
@@ -130,9 +132,9 @@ end
 
 # my_array = [1, 3, 5, 9, 4, 3]
 
-my_array = ["x", "y", "z"]
+my_array = %w[x y z]
 
-# my_array.my_each { |x| puts x }
+my_array.my_each { |x| puts x }
 
 # my_array.my_each_wtih_index(3) { |x, y| puts "#{y}: #{x}" }
 
