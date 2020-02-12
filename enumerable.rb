@@ -36,46 +36,68 @@ module Enumerable
 
     new_arr = []
 
-    while i < size
-      new_arr.push(self[i]) if yield(self[i]) == true
+    # self.my_each { new_arr.push(self[i]) if yield(self[i]) == true }
 
-      i += 1
-    end
+    # while i < size
+    #   new_arr.push(self[i]) if yield(self[i]) == true
+
+    #   i += 1
+    # end
+
+    my_each { |x| new_arr.push(x) if yield(x) }
 
     puts new_arr
 
     new_arr
   end
 
-  def my_all?
-    i = 0
+  def my_all?(pattern = nil)
+        
+    # i = 0
 
-    while i < size
-      if yield(self[i]) == false
-        return false
-        break
-      elsif (i + 1) == size
-        return true
-        break
-      end
+    # while i < size
+    #   if yield(self[i]) == false
+    #     return false
+    #     break
+    #   elsif (i + 1) == size
+    #     return true
+    #     break
+    #   end
 
-      i += 1
-    end
+    #   i += 1
+    # end
+  
+    my_each { |x| return false unless yield(x) } if block_given?
+    my_each { |x| return false unless x.is_a? pattern } if pattern.class == Class
+    my_each { |x| return false unless x =~ pattern } if pattern.class == Regexp
+    my_each { |x| return false unless x == pattern } if [Integer, String].include?(pattern.class)
+    my_each { |x| return false unless x } unless pattern && block_given?
+    true
+
   end
 
-  def my_any?
-    i = 0
+  def my_any?(pattern = nil)
+    
+    # i = 0
 
-    while i < size
-      if yield(self[i]) == true
-        return true
-        break
-      elsif (i + 1) == size
-        return false
-        break
-      end
-      i += 1
-    end
+    # while i < size
+    #   if yield(self[i]) == true
+    #     return true
+    #     break
+    #   elsif (i + 1) == size
+    #     return false
+    #     break
+    #   end
+    #   i += 1
+    # end
+
+
+    my_each { |x| return true if yield(x) } if block_given?
+    my_each { |x| return true if x.is_a? pattern } if pattern.class == Class
+    my_each { |x| return true if x =~ pattern } if pattern.class == Regexp
+    my_each { |x| return true if x == pattern } if [Integer, String].include?(pattern.class)
+    my_each { |x| return true if x } if !pattern && !block_given?
+    false
   end
 
   def my_none?
