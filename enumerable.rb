@@ -100,37 +100,58 @@ module Enumerable
     false
   end
 
-  def my_none?
-    i = 0
+  def my_none?(pattern = nil)
 
-    while i < size
-      if yield(size[i]) == true
-        return false
-        break
-      elsif i + 1 == size
-        return true
-        break
-      end
+    # i = 0
 
-      i += 1
-    end
+    # while i < size
+    #   if yield(size[i]) == true
+    #     return false
+    #     break
+    #   elsif i + 1 == size
+    #     return true
+    #     break
+    #   end
+
+    #   i += 1
+    # end
+
+    my_each { |x| return false if yield(x) } if block_given?
+    my_each { |x| return false if x.is_a? pattern } if pattern.class == Class
+    my_each { |x| return false if x =~ pattern } if pattern.class == Regexp
+    my_each { |x| return false if x == pattern } if [Integer, String].include?(pattern.class)
+    my_each { |x| return false if x } if !pattern && !block_given?
+    true
+
   end
 
-  def my_count(num = nil)
-    if num.nil?
-      size
-    else
-      i = 0
+  # def my_count(num = nil)
+  #   if num.nil?
+  #     size
+  #   else
+  #     i = 0
 
-      j = 0
+  #     j = 0
 
-      while i < size
-        j += 1 if self[i] == num
-        i += 1
-      end
+  #     while i < size
+  #       j += 1 if self[i] == num
+  #       i += 1
+  #     end
 
-      j
-    end
+  #     j
+  #   end  
+  # end
+
+  def my_count(item = nil)
+    count = 0
+    my_each { |x| count += 1 if yield(x) } if block_given?
+    return count if block_given?
+
+    my_each { |x| count += 1 if x == item } if item
+    return count if item
+
+    my_each { count += 1 } unless item && block_given?
+    count
   end
 
   def my_map
