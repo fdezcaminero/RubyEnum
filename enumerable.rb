@@ -2,7 +2,7 @@ module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
 
-    newarr = self.class == Array ? self : to_a
+    new_arr = self.class == Array ? self : to_a
 
     i = 0
 
@@ -11,7 +11,7 @@ module Enumerable
       i += 1
     end
 
-    newarr
+    new_arr
   end
 
   def my_each_with_index(num = nil)
@@ -46,7 +46,7 @@ module Enumerable
 
     my_each { |x| new_arr.push(x) if yield(x) }
 
-    puts new_arr
+    # puts new_arr
 
     new_arr
   end
@@ -70,7 +70,8 @@ module Enumerable
     my_each { |x| return false unless yield(x) } if block_given?
     my_each { |x| return false unless x.is_a? pattern } if pattern.class == Class
     my_each { |x| return false unless x =~ pattern } if pattern.class == Regexp
-    my_each { |x| return false unless x == pattern } if [Integer, String].include?(pattern.class)
+    my_each { |x| return false unless x == pattern } if pattern.class == String
+    my_each { |x| return false unless x == pattern } if pattern.class == Integer
     my_each { |x| return false unless x } unless pattern && block_given?
     true
 
@@ -95,7 +96,8 @@ module Enumerable
     my_each { |x| return true if yield(x) } if block_given?
     my_each { |x| return true if x.is_a? pattern } if pattern.class == Class
     my_each { |x| return true if x =~ pattern } if pattern.class == Regexp
-    my_each { |x| return true if x == pattern } if [Integer, String].include?(pattern.class)
+    my_each { |x| return true if x == pattern } if pattern.class == String
+    my_each { |x| return true if x == pattern } if pattern.class == Integer
     my_each { |x| return true if x } if !pattern && !block_given?
     false
   end
@@ -119,7 +121,8 @@ module Enumerable
     my_each { |x| return false if yield(x) } if block_given?
     my_each { |x| return false if x.is_a? pattern } if pattern.class == Class
     my_each { |x| return false if x =~ pattern } if pattern.class == Regexp
-    my_each { |x| return false if x == pattern } if [Integer, String].include?(pattern.class)
+    my_each { |x| return false if x == pattern } if pattern.class == String
+    my_each { |x| return false if x == pattern } if pattern.class == Integer
     my_each { |x| return false if x } if !pattern && !block_given?
     true
 
@@ -143,7 +146,9 @@ module Enumerable
   # end
 
   def my_count(item = nil)
+    
     count = 0
+
     my_each { |x| count += 1 if yield(x) } if block_given?
     return count if block_given?
 
@@ -155,12 +160,14 @@ module Enumerable
   end
 
   def my_map
+    return to_enum(:my_map) unless block_given?
+
     new_arr = []
 
     i = 0
 
     while i < size
-      new_arr.push(yield(self[i]))
+      new_arr.push(yield i) #thought this was working, it isn't
 
       i += 1
     end
@@ -168,27 +175,10 @@ module Enumerable
     new_arr
   end
 
-  # def my_inject(in = nil, sim = nil)
+  def my_inject(in = nil, sim = nil)
+    return to_enum(:my_inject) unless block_given?
 
-  # end
+    my_each { |x|  } if in == nil && sim != nil
+  end
 end
 
-# my_array = [1, 3, 5, 9, 4, 3]
-
-# my_array = %w[x y z]
-
-# my_array.my_each { |x| puts x }
-
-# my_array.my_each_wtih_index(3) { |x, y| puts "#{y}: #{x}" }
-
-# my_array.my_select { |x| x.odd? }
-
-# puts my_array.my_all?(String)
-
-# puts my_array.my_any? { |x| x == 11 }
-
-# puts my_array.my_none? { |x| x == 1 }
-
-# puts my_array.my_count(3)
-
-# puts my_array.my_map { |x| x ** 2 }

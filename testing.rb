@@ -36,31 +36,31 @@ p [1, 2].my_all?(1) # false
 p [1, 1].my_all?(1) # true
 
 # # my_any?
-# p 'my_any?'
-# p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
-# p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
-# p %w[ant bear cat].my_any?(/d/) #=> false
-# p [nil, true, 99].my_any?(Integer) #=> true
-# p [nil, true, 99].my_any? #=> true
-# p [].my_any? #=> false
-# p [1, 2, 3, 's'].my_any?(String) #=> true
-# p [1, 2, 3, 's'].my_any?(Numeric) #=> true ???
-# p [1, 2, 3].my_any?(String) #=> false
-# p [1, 2].my_any?(1) # true
-# p [1, 1].my_any?(1) # true
+p 'my_any?'
+p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+p %w[ant bear cat].my_any?(/d/) #=> false
+p [nil, true, 99].my_any?(Integer) #=> true
+p [nil, true, 99].my_any? #=> true
+p [].my_any? #=> false
+p [1, 2, 3, 's'].my_any?(String) #=> true
+p [1, 2, 3, 's'].my_any?(Numeric) #=> true ???
+p [1, 2, 3].my_any?(String) #=> false
+p [1, 2].my_any?(1) # true
+p [1, 1].my_any?(1) # true
 
-# # my_none?
-# p 'my_none?'
-# p %w[ant bear cat].my_none?(/d/) #=> true
-# p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
-# p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
-# p [1, 3.14, 42].my_none?(Float) #=> false
-# p [].my_none? #=> true
-# p [nil].my_none? #=> true
-# p [nil, false].my_none? #=> true
-# p [nil, false, true].my_none? #=> false
-# p [1, 2, 3].my_none?(1) #=> false
-# p [1, 2, 3].my_none?(4) #=> true
+# my_none?
+p 'my_none?'
+p %w[ant bear cat].my_none?(/d/) #=> true
+p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
+p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
+p [1, 3.14, 42].my_none?(Float) #=> false
+p [].my_none? #=> true
+p [nil].my_none? #=> true
+p [nil, false].my_none? #=> true
+p [nil, false, true].my_none? #=> false
+p [1, 2, 3].my_none?(1) #=> false
+p [1, 2, 3].my_none?(4) #=> true
 
 # # my_count
 # p 'my_count'
@@ -72,10 +72,10 @@ p [1, 1].my_all?(1) # true
 # p ary.count {|x| x%2 == 0}  #=> 3 (my own improvement)
 
 # # my_map
-# p 'my_map'
-# arr = [1, 2, 3, 4, 5]
-# p arr.my_map { |x| x * x }
-# p (1..2).my_map { |x| x * x }
+p 'my_map'
+arr = [1, 2, 3, 4, 5]
+p arr.my_map { |x| x * x }
+p (1..2).my_map { |x| x * x }
 
 # # my_inject
 # p 'my_inject'
@@ -93,3 +93,32 @@ p [1, 1].my_all?(1) # true
 # end
 # p longest #=> "sheep"
 # p [2, 4, 5].my_inject { |sum, n| sum * n }
+
+
+
+
+
+
+
+
+# MORE RANDOM TESTS
+
+# my_array = [1, 3, 5, 9, 4, 3]
+
+# my_array = %w[x y z]
+
+# my_array.my_each { |x| puts x }
+
+# my_array.my_each_wtih_index(3) { |x, y| puts "#{y}: #{x}" }
+
+# my_array.my_select { |x| x.odd? }
+
+# puts my_array.my_all?(String)
+
+# puts my_array.my_any? { |x| x == 11 }
+
+# puts my_array.my_none? { |x| x == 1 }
+
+# puts my_array.my_count(3)
+
+# puts my_array.my_map { |x| x ** 2 }
