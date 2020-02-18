@@ -128,22 +128,22 @@ module Enumerable
 
   end
 
-  # def my_count(num = nil)
-  #   if num.nil?
-  #     size
-  #   else
-  #     i = 0
+  def my_count(num = nil)
+    if num.nil?
+      size
+    else
+      i = 0
 
-  #     j = 0
+      j = 0
 
-  #     while i < size
-  #       j += 1 if self[i] == num
-  #       i += 1
-  #     end
+      while i < size
+        j += 1 if self[i] == num
+        i += 1
+      end
 
-  #     j
-  #   end  
-  # end
+      j
+    end  
+  end
 
   def my_count(item = nil)
     
@@ -175,10 +175,10 @@ module Enumerable
     new_arr
   end
 
-  def my_inject(in = nil, sim = nil)
-    return to_enum(:my_inject) unless block_given?
+  # def my_inject(in = nil, sim = nil)
+  #   return to_enum(:my_inject) unless block_given?
 
-    my_each { |x|  } if in == nil && sim != nil
-  end
+  #   my_each { |x|  } if in == nil && sim != nil
+  # end
 end
 
