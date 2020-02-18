@@ -168,9 +168,9 @@ module Enumerable
     new_arr
   end
 
-  # def my_inject(in = nil, sim = nil)
-  #   return to_enum(:my_inject) unless block_given?
+  def my_inject(in = nil, sim = nil)
+    return to_enum(:my_inject) unless block_given?
 
-  #   my_each { |x|  } if in == nil && sim != nil
-  # end
+    my_each { |x|  } if in == nil && sim != nil
+  end
 end
