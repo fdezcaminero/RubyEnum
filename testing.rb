@@ -73,7 +73,7 @@ p [1, 2, 3].my_none?(4) #=> true
 
 # # my_map
 p 'my_map'
-arr = [1, 2, 3, 4, 5]
+arr = [1, 2, 7, 4, 5]
 p arr.my_map { |x| x * x }
 p (1..2).my_map { |x| x * x }
 
