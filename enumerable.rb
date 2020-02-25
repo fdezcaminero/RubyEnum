@@ -36,34 +36,12 @@ module Enumerable
 
     new_arr = []
 
-    # self.my_each { new_arr.push(self[i]) if yield(self[i]) == true }
-
-    # while i < size
-    #   new_arr.push(self[i]) if yield(self[i]) == true
-
-    #   i += 1
-    # end
-
     my_each { |x| new_arr.push(x) if yield(x) }
 
     new_arr
   end
 
   def my_all?(pattern = nil)
-    # i = 0
-
-    # while i < size
-    #   if yield(self[i]) == false
-    #     return false
-    #     break
-    #   elsif (i + 1) == size
-    #     return true
-    #     break
-    #   end
-
-    #   i += 1
-    # end
-
     my_each { |x| return false unless yield(x) } if block_given?
     my_each { |x| return false unless x.is_a? pattern } if pattern.class == Class
     my_each { |x| return false unless x =~ pattern } if pattern.class == Regexp
@@ -74,19 +52,6 @@ module Enumerable
   end
 
   def my_any?(pattern = nil)
-    # i = 0
-
-    # while i < size
-    #   if yield(self[i]) == true
-    #     return true
-    #     break
-    #   elsif (i + 1) == size
-    #     return false
-    #     break
-    #   end
-    #   i += 1
-    # end
-
     my_each { |x| return true if yield(x) } if block_given?
     my_each { |x| return true if x.is_a? pattern } if pattern.class == Class
     my_each { |x| return true if x =~ pattern } if pattern.class == Regexp
@@ -97,20 +62,6 @@ module Enumerable
   end
 
   def my_none?(pattern = nil)
-    # i = 0
-
-    # while i < size
-    #   if yield(size[i]) == true
-    #     return false
-    #     break
-    #   elsif i + 1 == size
-    #     return true
-    #     break
-    #   end
-
-    #   i += 1
-    # end
-
     my_each { |x| return false if yield(x) } if block_given?
     my_each { |x| return false if x.is_a? pattern } if pattern.class == Class
     my_each { |x| return false if x =~ pattern } if pattern.class == Regexp
@@ -120,34 +71,18 @@ module Enumerable
     true
   end
 
-  # def my_count(num = nil)
-  #   if num.nil?
-  #     size
-  #   else
-  #     i = 0
-
-  #     j = 0
-
-  #     while i < size
-  #       j += 1 if self[i] == num
-  #       i += 1
-  #     end
-
-  #     j
-  #   end
-  # end
-
   def my_count(item = nil)
-    count = 0
+    num = 0
 
-    my_each { |x| count += 1 if yield(x) } if block_given?
-    return count if block_given?
-
-    my_each { |x| count += 1 if x == item } if item
-    return count if item
-
-    my_each { count += 1 } unless item && block_given?
-    count
+    if item
+      my_each { |x| num += 1 if x == item }
+      return num
+    elsif block_given?
+      my_each { |x| num += 1 if yield(x) }
+      return num
+    else
+      return size
+    end
   end
 
   def my_map
@@ -168,9 +103,37 @@ module Enumerable
     new_arr
   end
 
-  def my_inject(in = nil, sim = nil)
-    return to_enum(:my_inject) unless block_given?
+  def my_inject(init = nil, sim = nil)
+    i = 0
 
-    my_each { |x|  } if in == nil && sim != nil
+    crazy_arr = self.class == Range ? to_a : self
+
+    memo = 0
+
+    if block_given? && !init
+      while i < size
+        memo = yield(memo, crazy_arr[i])
+        i += 1
+      end
+    elsif block_given? && init
+      while i < size
+        memo = yield(memo, crazy_arr[i])
+        i += 1
+      end
+      memo = yield(memo, init)
+    elsif !block_given? && init
+      
+    end
+
+    memo
   end
+
+  # def multiply_els
+
+  # end
 end
+
+
+p (5..10).my_inject { |sum, n| sum + n }
+
+p (5..10).my_inject(5) { |sum, n| sum + n }
