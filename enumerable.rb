@@ -104,11 +104,11 @@ module Enumerable
   end
 
   def my_inject(init = nil, sim = nil)
-    i = 0
+    i = 1
 
     crazy_arr = self.class == Range ? to_a : self
 
-    memo = 0
+    memo = first
 
     if block_given? && !init
       while i < size
@@ -121,8 +121,11 @@ module Enumerable
         i += 1
       end
       memo = yield(memo, init)
-    elsif !block_given? && init
-      
+    elsif !block_given? && !sim
+      crazy_arr.my_each { |x| memo = memo.send(init, x) unless x == first } 
+    elsif !block_given? && sim
+      crazy_arr.my_each { |x| memo = memo.send(sim, x) unless x == first }
+      memo = memo.send(sim, init)
     end
 
     memo
@@ -134,6 +137,10 @@ module Enumerable
 end
 
 
-p (5..10).my_inject { |sum, n| sum + n }
+# p (5..10).my_inject { |sum, n| sum + n }
 
-p (5..10).my_inject(5) { |sum, n| sum + n }
+# p (5..10).my_inject(5) { |sum, n| sum + n }
+
+# p (5..10).my_inject(:*)
+
+# p (5..10).my_inject(5, :*)
