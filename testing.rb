@@ -69,13 +69,15 @@ p ary.my_count #=> 4
 p ary.my_count(9) #=> 0
 p ary.my_count(2) #=> 2
 p ary.my_count(&:even?) #=> 3
-p ary.count {|x| x%2 == 0}  #=> 3 (my own improvement)
+p ary.count(&:even?) #=> 3 (my own improvement)
 
 # # my_map
 p 'my_map'
 arr = [1, 2, 7, 4, 5]
 p arr.my_map { |x| x * x }
 p (1..2).my_map { |x| x * x }
+myMapP = proc { |x| x * x }
+p arr.my_map(myMapP)
 
 # my_inject
 p 'my_inject'
@@ -93,13 +95,6 @@ p (5..10).my_inject(1) { |product, n| product * n } #=> 151200
 # end
 # p longest #=> "sheep"
 # p [2, 4, 5].my_inject { |sum, n| sum * n }
-
-
-
-
-
-
-
 
 # MORE RANDOM TESTS
 

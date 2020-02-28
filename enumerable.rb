@@ -85,21 +85,28 @@ module Enumerable
     end
   end
 
-  def my_map
-    return to_enum(:my_map) unless block_given?
-
+  def my_map(prok = nil)
     crazy_arr = self.class == Range ? to_a : self
 
     new_arr = []
 
     i = 0
 
-    while i < size
-      new_arr.push(yield crazy_arr[i])
+    if prok
+      while i < size
+        new_arr.push(prok.call(crazy_arr[i]))
 
-      i += 1
+        i += 1
+      end
+    elsif block_given?
+      while i < size
+        new_arr.push(yield crazy_arr[i])
+
+        i += 1
+      end
+    else
+      return to_enum(:my_map)
     end
-
     new_arr
   end
 
@@ -122,20 +129,19 @@ module Enumerable
       end
       memo = yield(memo, init)
     elsif !block_given? && !sim
-      crazy_arr.my_each { |x| memo = memo.send(init, x) unless x == first } 
+      crazy_arr.my_each_with_index { |x, y| memo = memo.send(init, x) unless y.zero? } # I have my doubts about the ===
     elsif !block_given? && sim
-      crazy_arr.my_each { |x| memo = memo.send(sim, x) unless x == first }
+      crazy_arr.my_each_with_index { |x, y| memo = memo.send(sim, x) unless y.zero? } # I have my doubts about the ===
       memo = memo.send(sim, init)
     end
 
     memo
   end
 
-  # def multiply_els
-
-  # end
+  def multiply_els
+    my_inject(:*)
+  end
 end
-
 
 # p (5..10).my_inject { |sum, n| sum + n }
 
@@ -144,3 +150,5 @@ end
 # p (5..10).my_inject(:*)
 
 # p (5..10).my_inject(5, :*)
+
+# p [3, 2, 4].multiply_els
