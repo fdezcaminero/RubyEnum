@@ -44,7 +44,7 @@ p [nil, true, 99].my_any?(Integer) #=> true
 p [nil, true, 99].my_any? #=> true
 p [].my_any? #=> false
 p [1, 2, 3, 's'].my_any?(String) #=> true
-p [1, 2, 3, 's'].my_any?(Numeric) #=> true ???
+p [1, 2, 3, 's'].my_any?(Numeric) #=> true
 p [1, 2, 3].my_any?(String) #=> false
 p [1, 2].my_any?(1) # true
 p [1, 1].my_any?(1) # true
