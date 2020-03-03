@@ -140,20 +140,6 @@ module Enumerable
   end
 end
 
-# p (5..10).my_inject { |sum, n| sum + n }
-
-# p (5..10).my_inject(5) { |sum, n| sum + n }
-
-# p (5..10).my_inject(:*)
-
-# p (5..10).my_inject(5, :*)
-
-# p [3, 2, 4].multiply_els
-
-# def my_all_help
-
-# end
-
 def classy_all(pattern, chars)
   return false if pattern.class == Regexp && chars =~ pattern
   if pattern.is_a? Class
