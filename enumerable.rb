@@ -11,7 +11,6 @@ module Enumerable
       i += 1
     end
 
-    #this is working super well
     new_arr
   end
 
@@ -33,8 +32,6 @@ module Enumerable
   def my_select
     return to_enum(:my_select) unless block_given?
 
-    i = 0
-
     new_arr = []
 
     my_each { |x| new_arr.push(x) if yield(x) }
@@ -43,32 +40,39 @@ module Enumerable
   end
 
   def my_all?(pattern = nil)
-    my_each { |x| return false unless yield(x) } if block_given?
-    my_each { |x| return false unless x.is_a? pattern } if pattern.class == Class
-    my_each { |x| return false unless x =~ pattern } if pattern.class == Regexp
-    my_each { |x| return false unless x == pattern } if pattern.class == String
-    my_each { |x| return false unless x == pattern } if pattern.class == Integer
-    my_each { |x| return false unless x } unless pattern && block_given?
+    my_each do |x|
+      return false if block_given? && !yield(x)
+
+      return false unless pattern.nil? || classy_all(pattern, x) != false
+
+      return false unless x
+    end
     true
   end
 
   def my_any?(pattern = nil)
-    my_each { |x| return true if yield(x) } if block_given?
-    my_each { |x| return true if x.is_a? pattern } if pattern.class == Class
-    my_each { |x| return true if x =~ pattern } if pattern.class == Regexp
-    my_each { |x| return true if x == pattern } if pattern.class == String
-    my_each { |x| return true if x == pattern } if pattern.class == Integer
-    my_each { |x| return true if x } if !pattern && !block_given?
+    my_each do |x|
+      return true if block_given? && yield(x)
+
+      unless pattern.nil?
+        return true if classy_any(pattern, x) == true
+      end
+
+      return true if x
+    end
     false
   end
 
   def my_none?(pattern = nil)
-    my_each { |x| return false if yield(x) } if block_given?
-    my_each { |x| return false if x.is_a? pattern } if pattern.class == Class
-    my_each { |x| return false if x =~ pattern } if pattern.class == Regexp
-    my_each { |x| return false if x == pattern } if pattern.class == String
-    my_each { |x| return false if x == pattern } if pattern.class == Integer
-    my_each { |x| return false if x } if !pattern && !block_given?
+    my_each do |x|
+      if block_given?
+        return false if yield(x)
+      elsif !pattern.nil?
+        return false if classy_none(pattern, x) == false
+      elsif x
+        return false
+      end
+    end
     true
   end
 
@@ -93,63 +97,74 @@ module Enumerable
 
     i = 0
 
-    if prok
-      while i < size
+    while i < size
+      if prok
         new_arr.push(prok.call(crazy_arr[i]))
-
-        i += 1
-      end
-    elsif block_given?
-      while i < size
+      elsif block_given?
         new_arr.push(yield crazy_arr[i])
-
-        i += 1
+      else
+        return to_enum(:my_map)
       end
-    else
-      return to_enum(:my_map)
+      i += 1
     end
+
     new_arr
   end
 
   def my_inject(init = nil, sim = nil)
     i = 1
-
     crazy_arr = self.class == Range ? to_a : self
-
     memo = first
-
-    if block_given? && !init
+    if block_given?
       while i < size
         memo = yield(memo, crazy_arr[i])
         i += 1
       end
-    elsif block_given? && init
-      while i < size
-        memo = yield(memo, crazy_arr[i])
-        i += 1
-      end
-      memo = yield(memo, init)
-    elsif !block_given? && !sim
-      crazy_arr.my_each_with_index { |x, y| memo = memo.send(init, x) unless y.zero? } # I have my doubts about the ===
-    elsif !block_given? && sim
-      crazy_arr.my_each_with_index { |x, y| memo = memo.send(sim, x) unless y.zero? } # I have my doubts about the ===
-      memo = memo.send(sim, init)
+      memo = yield(memo, init) if init
+    else
+      memo = inject_block(crazy_arr, memo, init, sim)
     end
-
     memo
-  end
-
-  def multiply_els
-    my_inject(:*)
   end
 end
 
-# p (5..10).my_inject { |sum, n| sum + n }
+def classy_all(pattern, chars)
+  return false if pattern.class == Regexp && chars =~ pattern
 
-# p (5..10).my_inject(5) { |sum, n| sum + n }
+  if pattern.is_a? Class
+    return false unless chars.is_a? pattern
+  elsif chars != pattern
+    return false
+  end
+  true
+end
 
-# p (5..10).my_inject(:*)
+def classy_any(pattern, chars)
+  return true if pattern.class == Regexp && chars =~ pattern
 
-# p (5..10).my_inject(5, :*)
+  if pattern.is_a? Class
+    return true unless chars.is_a? pattern
+  elsif chars != pattern
+    return false
+  end
+  false
+end
 
-# p [3, 2, 4].multiply_els
+def classy_none(pattern, chars)
+  return false if pattern.class == Regexp && pattern =~ chars
+
+  if pattern.is_a? Class
+    return false unless chars.is_a? pattern
+  elsif chars == pattern
+    return false
+  end
+  true
+end
+
+def inject_block(crayarray, acc, initial, simb)
+  crayarray.my_each_with_index { |x, y| acc = acc.send(initial, x) unless y.zero? } unless simb
+  crayarray.my_each_with_index { |x, y| acc = acc.send(simb, x) unless y.zero? } if simb
+  acc = acc.send(simb, initial) if simb
+
+  acc
+end
