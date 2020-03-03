@@ -1,6 +1,3 @@
-# RubyEnum
-Cloning Ruby Enumerables (methods)
-
 # Ruby Enumerables
 Ruby Enumerables, written in Ruby in partial fulfillment of the Microverse Cirriculum.
 
