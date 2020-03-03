@@ -1,5 +1,7 @@
 # Ruby Enumerables
-Ruby Enumerables, written in Ruby in partial fulfillment of the Microverse Cirriculum.
+This project is a clone of the Ruby Enumerables. Specifically, of the methods given to arrays, ranges, and other Enumerables.
+
+Written in Ruby in partial fulfillment of the Microverse Cirriculum.
 
 ---
 
