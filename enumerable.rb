@@ -43,9 +43,7 @@ module Enumerable
     my_each do |x|
       return false if block_given? && !yield(x)
 
-      unless pattern.nil?
-        return false if classy_all(pattern, x) == false
-      end
+      return false unless pattern.nil? || classy_all(pattern, x) != false
 
       return false unless x
     end
@@ -99,21 +97,17 @@ module Enumerable
 
     i = 0
 
-    if prok
-      while i < size
+    while i < size
+      if prok
         new_arr.push(prok.call(crazy_arr[i]))
-
-        i += 1
-      end
-    elsif block_given?
-      while i < size
+      elsif block_given?
         new_arr.push(yield crazy_arr[i])
-
-        i += 1
+      else
+        return to_enum(:my_map)
       end
-    else
-      return to_enum(:my_map)
+      i += 1
     end
+
     new_arr
   end
 
@@ -131,10 +125,6 @@ module Enumerable
       memo = inject_block(crazy_arr, memo, init, sim)
     end
     memo
-  end
-
-  def multiply_els
-    my_inject(:*)
   end
 end
 
