@@ -130,6 +130,7 @@ end
 
 def classy_all(pattern, chars)
   return false if pattern.class == Regexp && chars =~ pattern
+
   if pattern.is_a? Class
     return false unless chars.is_a? pattern
   elsif chars != pattern
@@ -140,6 +141,7 @@ end
 
 def classy_any(pattern, chars)
   return true if pattern.class == Regexp && chars =~ pattern
+
   if pattern.is_a? Class
     return true unless chars.is_a? pattern
   elsif chars != pattern
@@ -150,6 +152,7 @@ end
 
 def classy_none(pattern, chars)
   return false if pattern.class == Regexp && pattern =~ chars
+  
   if pattern.is_a? Class
     return false unless chars.is_a? pattern
   elsif chars == pattern
