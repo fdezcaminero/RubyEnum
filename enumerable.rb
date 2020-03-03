@@ -128,9 +128,7 @@ module Enumerable
       end
       memo = yield(memo, init) if init
     else
-      crazy_arr.my_each_with_index { |x, y| memo = memo.send(init, x) unless y.zero? } unless sim
-      crazy_arr.my_each_with_index { |x, y| memo = memo.send(sim, x) unless y.zero? } if sim
-      memo = memo.send(sim, init) if sim
+      memo = inject_block(crazy_arr, memo, init, sim)
     end
     memo
   end
@@ -168,4 +166,12 @@ def classy_none(pattern, chars)
     return false
   end
   true
+end
+
+def inject_block(crayarray, acc, initial, simb)
+  crayarray.my_each_with_index { |x, y| acc = acc.send(initial, x) unless y.zero? } unless simb
+  crayarray.my_each_with_index { |x, y| acc = acc.send(simb, x) unless y.zero? } if simb
+  acc = acc.send(simb, initial) if simb
+
+  acc
 end
