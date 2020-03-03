@@ -121,22 +121,16 @@ module Enumerable
     i = 1
     crazy_arr = self.class == Range ? to_a : self
     memo = first
-    if block_given? && !init
+    if block_given?
       while i < size
         memo = yield(memo, crazy_arr[i])
         i += 1
       end
-    elsif block_given? && init
-      while i < size
-        memo = yield(memo, crazy_arr[i])
-        i += 1
-      end
-      memo = yield(memo, init)
-    elsif !block_given? && !sim
-      crazy_arr.my_each_with_index { |x, y| memo = memo.send(init, x) unless y.zero? } # I have my doubts about the ===
-    elsif !block_given? && sim
-      crazy_arr.my_each_with_index { |x, y| memo = memo.send(sim, x) unless y.zero? } # I have my doubts about the ===
-      memo = memo.send(sim, init)
+      memo = yield(memo, init) if init
+    else
+      crazy_arr.my_each_with_index { |x, y| memo = memo.send(init, x) unless y.zero? } unless sim
+      crazy_arr.my_each_with_index { |x, y| memo = memo.send(sim, x) unless y.zero? } if sim
+      memo = memo.send(sim, init) if sim
     end
     memo
   end
