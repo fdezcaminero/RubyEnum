@@ -8,7 +8,7 @@ Ruby Enumerables, written in Ruby in partial fulfillment of the Microverse Cirri
 - Ruby
 
 ---
-```
+
 
 ## Author
 
