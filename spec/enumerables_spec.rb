@@ -45,41 +45,40 @@ RSpec.describe Enumerable do
       expect([1, 2i, 3.14].my_all?(Numeric)).to eql(true)
     end
   end
-  
+
   describe '#my_any?' do
     it 'check if any of the items in array matches block criteria' do
-        expect(%w[ant bear cat].my_any? { |word| word.length >= 3 }).to eql(true)
+      expect(%w[ant bear cat].my_any? { |word| word.length >= 3 }).to eql(true)
     end
     it 'check if any of the items in array matches Regex' do
-        expect(%w[ant bear cat].my_any?(/d/)).to eql(true)
+      expect(%w[ant bear cat].my_any?(/d/)).to eql(true)
     end
     it 'check if any of the items in array matches Class' do
-        expect([nil, true, 99].my_any?(Integer)).to eql(true)
+      expect([nil, true, 99].my_any?(Integer)).to eql(true)
     end
     it 'check if any of the items in array matches at all' do
-        expect([].my_any?).to eql(false)
+      expect([].my_any?).to eql(false)
     end
     it 'check if any of the items in array matches at all within the array' do
-        expect([nil, true, 99].my_any?).to eql(true)
+      expect([nil, true, 99].my_any?).to eql(true)
     end
   end
 
   describe '#my_none?' do
     it 'check if any of the items in array does not match block criteria' do
-        expect(%w[ant bear cat].my_none? { |word| word.length == 5 }).to eql(true)
+      expect(%w[ant bear cat].my_none? { |word| word.length == 5 }).to eql(true)
     end
     it 'check if any of the items in array does not match with Regex' do
-        expect(%w[ant bear cat].my_none?(/d/)).to eql(true)
+      expect(%w[ant bear cat].my_none?(/d/)).to eql(true)
     end
     it 'check if any of the items in array does not match with Class' do
-        expect([1, 3.14, 42].my_none?(Float)).to eql(false)
+      expect([1, 3.14, 42].my_none?(Float)).to eql(false)
     end
     it 'check if any of the items in array does not match within the array' do
-        expect([nil, false, true].my_none?).to eql(false)
+      expect([nil, false, true].my_none?).to eql(false)
     end
     it 'check if any of the items in array does not match with parameter' do
-        expect([1, 2, 3].my_none?(4)).to eql(true)
+      expect([1, 2, 3].my_none?(4)).to eql(true)
     end
   end
-
 end
