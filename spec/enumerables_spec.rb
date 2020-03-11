@@ -19,6 +19,10 @@ RSpec.describe Enumerable do
     it 'starts with index 3' do
       expect([11].my_each_with_index(3) { |x, y| p "item: #{x}, index: #{y}" }).to eql([11])
     end
+
+    it 'm.e.w.i. no block given' do
+      expect([11].my_each_with_index(3)).to be_an Enumerator
+    end
   end
 
   describe '#my_select' do
@@ -31,7 +35,7 @@ RSpec.describe Enumerable do
     end
 
     it 'nothing to select' do
-        expect(%w[a b c d].my_select { |x| x == 'z' }).to eql([])
+      expect(%w[a b c d].my_select { |x| x == 'z' }).to eql([])
     end
   end
 
@@ -109,6 +113,9 @@ RSpec.describe Enumerable do
     end
     it 'accumulates as it iterates with a range, returns accumulates as an array' do
       expect((1..2).my_map { |x| x * x }).to eql([1, 4])
+    end
+    it 'No block given; returns Enumerator object' do
+      expect(arr.my_map).to be_an Enumerator
     end
   end
 
