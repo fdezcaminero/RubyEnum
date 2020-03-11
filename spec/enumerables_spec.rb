@@ -81,4 +81,20 @@ RSpec.describe Enumerable do
       expect([1, 2, 3].my_none?(4)).to eql(true)
     end
   end
+
+  describe '#my_count' do
+    ary = [1, 2, 3, 4]
+    it 'counts the number of recurring items passed in the parameter' do
+      expect(ary.my_count).to eql(4)
+    end
+    it 'counts the number of recurring items passed in the parameter' do
+      expect(ary.my_count(9)).to eql(0)
+    end
+    it 'counts the number of recurring items passed in the parameter' do
+      expect(ary.my_count(2)).to eql(1)
+    end
+    it 'counts the number of recurring items passed in the parameter' do
+      expect(ary.my_count(&:even?)).to eql(2)
+    end
+  end
 end
