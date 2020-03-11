@@ -97,4 +97,35 @@ RSpec.describe Enumerable do
       expect(ary.my_count(&:even?)).to eql(2)
     end
   end
+
+  describe '#my_map' do
+    arr = [1, 2, 3, 4, 5]
+    it 'accumulates as it iterates, returns accumulates as an array' do
+      expect(arr.my_map { |x| x * x }).to eql([1, 4, 9, 16, 25])
+    end
+    it 'accumulates as it iterates with a range, returns accumulates as an array' do
+      expect((1..2).my_map { |x| x * x }).to eql([1, 4])
+    end
+  end
+
+  describe '#my_inject' do
+    it 'it accumulates the array into a single variable' do
+      expect((5..10).inject(:+)).to eql(45)
+    end
+    it 'it accumulates the array into a single variable: block' do
+      expect((5..10).my_inject { |sum, n| sum + n }).to eql(45)
+    end
+    it 'it accumulates the array into a single variable: two parameters accumulator + symbol' do
+      expect((5..10).my_inject(1, :*)).to eql(151_200)
+    end
+    it 'it accumulates the array into a single variable: parameter and block statement' do
+      expect((5..10).my_inject(1) { |product, n| product * n }).to eql(151_200)
+    end
+    it 'it accumulates the array into a single variable: parameter and block statement' do
+      expect((5..10).my_inject(1) { |product, n| product * n }).to eql(151_200)
+    end
+    it 'it accumulates the array into a single variable: long block statements' do
+      expect(%w[cat sheep bear].my_inject { |memo, word| memo.length > word.length ? memo : word }).to eql('sheep')
+    end
+  end
 end
