@@ -81,12 +81,12 @@ module Enumerable
 
     if item
       my_each { |x| num += 1 if x == item }
-      return num
+      num
     elsif block_given?
       my_each { |x| num += 1 if yield(x) }
-      return num
+      num
     else
-      return size
+      size
     end
   end
 

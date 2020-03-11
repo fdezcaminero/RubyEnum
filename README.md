@@ -8,11 +8,13 @@ Written in Ruby in partial fulfillment of the Microverse Cirriculum.
 ## Built With
 
 - Ruby
+- Rubocp
+- Rspec
 
 ---
 
 
-## Author
+## Authors
 
 
 👤 **Jose Fernandez Caminero**
@@ -20,6 +22,15 @@ Written in Ruby in partial fulfillment of the Microverse Cirriculum.
 - Github: [@fdezcaminero](https://github.com/fdezcaminero)
 - Twitter: [@fdezcaminero](https://twitter.com/fdezcaminero)
 - Linkedin: [Linkedin](https://www.linkedin.com/in/fdezcaminero/)
+
+
+
+👤 **Seth Zea (Only for the TDD and RSpec part of the project)**
+
+- Github: [@sz16900](https://github.com/sz16900)
+- Twitter: [@_sethzea_](https://twitter.com/_sethzea_)
+- Linkedin: [Linkedin](https://www.linkedin.com/in/seth-zea/)
+
 
 ---
 
