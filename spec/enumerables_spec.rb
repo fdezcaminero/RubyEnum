@@ -29,6 +29,10 @@ RSpec.describe Enumerable do
     it 'selects more stuff' do
       expect(%w[a b c d].my_select { |x| x == 'd' }).to eql(['d'])
     end
+
+    it 'nothing to select' do
+        expect(%w[a b c d].my_select { |x| x == 'z' }).to eql([])
+    end
   end
 
   describe '#my_all?' do
