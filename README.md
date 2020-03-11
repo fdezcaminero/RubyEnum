@@ -8,6 +8,8 @@ Written in Ruby in partial fulfillment of the Microverse Cirriculum.
 ## Built With
 
 - Ruby
+- Rubocp
+- Rspec
 
 ---
 
