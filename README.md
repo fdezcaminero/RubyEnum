@@ -14,7 +14,7 @@ Written in Ruby in partial fulfillment of the Microverse Cirriculum.
 ---
 
 
-## Author
+## Authors
 
 
 👤 **Jose Fernandez Caminero**
